@@ -1,13 +1,16 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, Image, StyleSheet, TextPropTypes} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import PropTypes from 'prop-types';
-
+import {uploadsUrl} from '../utils/variables';
 
 const ListItem = (props) => {
   return (
     <TouchableOpacity style={styles.row}>
       <View style={styles.imageBox}>
-        <Image style={styles.image} source={{uri: props.singleItem.thumnails.w160}} />
+        <Image
+          style={styles.image}
+          source={{uri: uploadsUrl + props.singleMedia.thumbnails.w160}}
+        />
       </View>
 
       <View style={styles.textBox}>
@@ -31,23 +34,23 @@ const styles = StyleSheet.create({
   textBox: {
     fontSize: 20,
     flex: 1,
-    paddingLeft: 15
+    paddingLeft: 15,
   },
   imageBox: {
     flex: 1,
   },
-  image:{
+  image: {
     flex: 2,
     borderRadius: 6,
   },
   title: {
     fontSize: 20,
-    fontWeight:  'bold',
-  }
+    fontWeight: 'bold',
+  },
 });
 
 ListItem.propTypes = {
   singleItem: PropTypes.object.isRequired,
-}
+};
 
 export default ListItem;
