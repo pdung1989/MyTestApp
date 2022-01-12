@@ -1,16 +1,17 @@
 import {React, useState, useEffect} from 'react';
 import {FlatList} from 'react-native';
 import ListItem from './ListItem';
+import {baseUrl} from '../utils/variables.js'
 
-const url =
-  'https://raw.githubusercontent.com/pdung1989/wbma/master/docs/assets/test.json';
+// const url =
+//   'https://raw.githubusercontent.com/pdung1989/wbma/master/docs/assets/test.json';
 
 const List = () => {
   const [mediaArray, setMediaArray] = useState([]);
   //fetch data from url
   const loadMedia = async () => {
     try {
-      const response = await fetch(url);
+      const response = await fetch(baseUrl + 'media/');
       if(!response.ok) {
         throw Error(response.statusText);
       }
@@ -28,7 +29,7 @@ const List = () => {
   return (
     <FlatList
       data={mediaArray}
-      keyExtractor={(item) => item.title}
+      keyExtractor={(item) => item.file_id.toString()}
       renderItem={({item}) => <ListItem singleItem={item} />}
     />
   );
