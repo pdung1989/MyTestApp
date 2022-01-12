@@ -38,8 +38,8 @@ const List = () => {
     <FlatList
       data={mediaArray}
       keyExtractor={(item) => item.file_id.toString()}
-      renderItem={({item}) => <ListItem singleItem={item} />}
-    />
+      renderItem={({item}) => <ListItem singleMedia={item} />}
+    ></FlatList>
   );
 };
 

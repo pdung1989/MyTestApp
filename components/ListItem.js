@@ -6,51 +6,48 @@ import {uploadsUrl} from '../utils/variables';
 const ListItem = (props) => {
   return (
     <TouchableOpacity style={styles.row}>
-      <View style={styles.imageBox}>
+      <View style={styles.imagebox}>
         <Image
-          style={styles.image}
           source={{uri: uploadsUrl + props.singleMedia.thumbnails.w160}}
+          style={styles.image}
         />
       </View>
-
-      <View style={styles.textBox}>
-        <Text style={styles.title}>{props.singleItem.title}</Text>
-        <Text>{props.singleItem.description}</Text>
+      <View style={styles.textbox}>
+        <Text style={styles.listTitle}>{props.singleMedia.title}</Text>
+        <Text>{props.singleMedia.description}</Text>
       </View>
     </TouchableOpacity>
   );
 };
-
 const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
-    backgroundColor: '#cea0e8',
-    padding: 20,
-    alignItems: 'flex-start',
+    padding: 15,
+    backgroundColor: '#eee',
     borderRadius: 6,
     marginHorizontal: 10,
     marginBottom: 5,
   },
-  textBox: {
-    fontSize: 20,
-    flex: 1,
-    paddingLeft: 15,
-  },
-  imageBox: {
+  imagebox: {
     flex: 1,
   },
   image: {
-    flex: 2,
+    flex: 1,
     borderRadius: 6,
   },
-  title: {
-    fontSize: 20,
+  textbox: {
+    flex: 2,
+    padding: 10,
+  },
+  listTitle: {
     fontWeight: 'bold',
+    fontSize: 20,
+    paddingBottom: 15,
   },
 });
 
 ListItem.propTypes = {
-  singleItem: PropTypes.object.isRequired,
+  singleMedia: PropTypes.object.isRequired,
 };
 
 export default ListItem;
