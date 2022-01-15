@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     backgroundColor: '#ffd700',
     padding: 10,
-    color: 'black',
+    color: '#3b8c3e',
   },
   infoArea: {
     flex: 6,
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: '#32cd32',
+    backgroundColor: '#3b8c3e',
   },
 });
 export default App;
