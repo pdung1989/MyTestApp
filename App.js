@@ -1,15 +1,13 @@
 import React from 'react';
 import {StatusBar} from 'expo-status-bar';
-import {SafeAreaView} from 'react-native';
-import GlobalStyles from './utils/GlobalStyles';
-import List from './components/List';
+import {Home} from './views/Home';
 
 const App = () => {
   return (
-    <SafeAreaView style={GlobalStyles.AndroidSafeArea}>
-      <List />
-      <StatusBar style='auto' />
-    </SafeAreaView>
+    <>
+      <Home />
+      <StatusBar style="auto" />
+    </>
   );
 };
 
