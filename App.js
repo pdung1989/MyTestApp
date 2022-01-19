@@ -1,6 +1,7 @@
 import React from 'react';
 import {StatusBar} from 'expo-status-bar';
-import {Home} from './views/Home';
+import {View} from 'react-native';
+import Home from './views/Home';
 
 const App = () => {
   return (
