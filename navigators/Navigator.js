@@ -19,7 +19,7 @@ const TabScreen = () => {
   );
 };
 
-// Stack navigator
+// Stack navigator with nested child tab navigator
 const StackScreen = () => {
   return (
     <Stack.Navigator>
