@@ -1,12 +1,11 @@
 import React from 'react';
 import {StatusBar} from 'expo-status-bar';
-import {View} from 'react-native';
-import Home from './views/Home';
+import Navigator from './navigators/Navigator';
 
 const App = () => {
   return (
     <>
-      <Home />
+      <Navigator />
       <StatusBar style="auto" />
     </>
   );
