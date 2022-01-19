@@ -3,30 +3,32 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import Home from '../views/Home';
 import Profile from '../views/Profile';
-import Single from '../views/Profile';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import Single from '../views/Single';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-// For the tabs navigation on front page
 const TabScreen = () => {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen
+        name="Home"
+        component={Home}
+        // options={{headerShown: false}}
+      ></Tab.Screen>
+      <Tab.Screen name="Profile" component={Profile}></Tab.Screen>
     </Tab.Navigator>
   );
 };
 
-// Stack navigator with nested child tab navigator
 const StackScreen = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="Home"
         component={TabScreen}
-        //options={{headerShow: false}}
+        //options={{headerShown: false}}
       ></Stack.Screen>
       <Stack.Screen name="Single" component={Single}></Stack.Screen>
     </Stack.Navigator>

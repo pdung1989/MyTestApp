@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 const Home = ({navigation}) => {
   return (
     <SafeAreaView style={GlobalStyles.AndroidSafeArea}>
-      <List />
+      <List navigation={navigation} />
     </SafeAreaView>
   );
 };
@@ -15,4 +15,5 @@ const Home = ({navigation}) => {
 Home.propTypes = {
   navigation: PropTypes.object,
 };
+
 export default Home;
