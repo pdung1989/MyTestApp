@@ -6,6 +6,7 @@ import Profile from '../views/Profile';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Single from '../views/Single';
 import Login from '../views/Login';
+import { MainContext } from '../contexts/MainContext';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -24,7 +25,7 @@ const TabScreen = () => {
 };
 
 const StackScreen = () => {
-  const isLoggedIn = false;
+  const {isLoggedIn} = useContext(MainContext);
   return (
     <Stack.Navigator>
       {isLoggedIn ? (
