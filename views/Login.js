@@ -10,6 +10,8 @@ const Login = ({navigation}) => {
 
   // check token when the app starts
   const checkToken = async () => {
+    // in real world: call api with user creds and get a token as response
+    // now we are using a "dummy" token
     const userToken = await AsyncStorage.getItem('userToken');
     console.log('token value in async storage', userToken);
     // dummy validation for user token
