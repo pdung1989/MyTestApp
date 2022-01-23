@@ -1,6 +1,24 @@
 import {React, useEffect, useState} from 'react';
 import {baseUrl} from '../utils/variables';
 
+// fetch data from endpoint
+const doFetch = async (url, options = {}) => {
+  try {
+    const response = await fetch(url, options);
+    const json = await response.json();
+    if (response.ok) {
+      return json;
+    } else {
+      const message = json.error
+        ? `${json.message}: ${json.error}`
+        : json.message;
+      throw new Error(message || response.statusText);
+    }
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
 const useMedia = () => {
   const [mediaArray, setMediaArray] = useState([]);
   // let mediaArray = [];
@@ -35,4 +53,21 @@ const useMedia = () => {
   return {mediaArray};
 };
 
-export {useMedia};
+// create useLogin hook for handling login
+const useLogin = () => {
+  const postLogin = async (userCredentials) => {
+    // user credentials format: {username: 'someUsername', password: 'somePassword'}
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': application / json,
+      },
+      body: JSON.stringify(userCredentials),
+    };
+    return await doFetch(baseUrl + 'login', options);
+  };
+
+  return {postLogin};
+};
+
+export {useMedia, useLogin};
