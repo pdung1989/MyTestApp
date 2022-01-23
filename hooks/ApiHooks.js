@@ -21,7 +21,7 @@ const doFetch = async (url, options = {}) => {
 
 // useUser hook to handle user token
 const useUser = () => {
-
+  
   const getUserByToken = async (token) => {
     try {
       const options = {
@@ -40,8 +40,20 @@ const useUser = () => {
     }
   };
 
-  return {getUserByToken};
- };
+  // add new user
+  const postUser = async (data) => {
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    };
+    return await doFetch(baseUrl + 'users', options);
+  };
+
+  return {getUserByToken, postUser};
+};
 
 // useMedia hook to handle state of media
 const useMedia = () => {
