@@ -21,7 +21,7 @@ const Login = ({navigation}) => {
     try {
       const userData = await getUserByToken(userToken);
       console.log('chekToken', userData);
-
+      setUser(userData);
       setIsLoggedIn(true);
     } catch (error) {
       console.error(error);
@@ -31,7 +31,6 @@ const Login = ({navigation}) => {
   useEffect(() => {
     checkToken();
   }, []);
-
 
   return (
     <View style={styles.container}>
