@@ -1,7 +1,6 @@
 import React, {useContext} from 'react';
 import {StyleSheet, SafeAreaView, Text, Button} from 'react-native';
 import {MainContext} from '../contexts/MainContext';
-import PropTypes from 'prop-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Profile = () => {
@@ -18,7 +17,7 @@ const Profile = () => {
       <Text>{user.username}</Text>
       <Text>{user.email}</Text>
       <Text>{user.full_name}</Text>
-      <Button title={'Logout'} onPress={logout} />
+      <Button title={'Logout!'} onPress={logout} />
     </SafeAreaView>
   );
 };

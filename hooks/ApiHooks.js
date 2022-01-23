@@ -1,4 +1,4 @@
-import {React, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {baseUrl} from '../utils/variables';
 
 // fetch data from endpoint
@@ -17,42 +17,6 @@ const doFetch = async (url, options = {}) => {
   } catch (error) {
     throw new Error(error.message);
   }
-};
-
-// useUser hook to handle user token
-const useUser = () => {
-  
-  const getUserByToken = async (token) => {
-    try {
-      const options = {
-        method: 'GET',
-        headers: {'x-access-token': token},
-      };
-      const response = await fetch(baseUrl + 'users/user', options);
-      const userData = response.json();
-      if (response.ok) {
-        return userData;
-      } else {
-        throw new Error(userData.message);
-      }
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  };
-
-  // add new user
-  const postUser = async (data) => {
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    };
-    return await doFetch(baseUrl + 'users', options);
-  };
-
-  return {getUserByToken, postUser};
 };
 
 // useMedia hook to handle state of media
@@ -97,7 +61,7 @@ const useLogin = () => {
     const options = {
       method: 'POST',
       headers: {
-        'Content-Type': application / json,
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(userCredentials),
     };
@@ -106,5 +70,30 @@ const useLogin = () => {
 
   return {postLogin};
 };
+
+// useUser hook to handle user token
+const useUser = () => {
+  const getUserByToken = async (token) => {
+    const options = {
+      method: 'GET',
+      headers: {'x-access-token': token},
+    };
+    return await doFetch(baseUrl + 'users/user', options);
+  };
+  // add new user
+  const postUser = async (data) => {
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    };
+    return await doFetch(baseUrl + 'users', options);
+  };
+
+  return {getUserByToken, postUser};
+};
+
 
 export {useMedia, useLogin, useUser};
