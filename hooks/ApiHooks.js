@@ -19,6 +19,31 @@ const doFetch = async (url, options = {}) => {
   }
 };
 
+// useUser hook to handle user token
+const useUser = () => {
+
+  const getUserByToken = async (token) => {
+    try {
+      const options = {
+        method: 'GET',
+        headers: {'x-access-token': token},
+      };
+      const response = await fetch(baseUrl + 'users/user', options);
+      const userData = response.json();
+      if (response.ok) {
+        return userData;
+      } else {
+        throw new Error(userData.message);
+      }
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  };
+
+  return {getUserByToken};
+ };
+
+// useMedia hook to handle state of media
 const useMedia = () => {
   const [mediaArray, setMediaArray] = useState([]);
   // let mediaArray = [];
@@ -70,4 +95,4 @@ const useLogin = () => {
   return {postLogin};
 };
 
-export {useMedia, useLogin};
+export {useMedia, useLogin, useUser};
