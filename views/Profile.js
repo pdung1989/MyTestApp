@@ -52,10 +52,10 @@ const Profile = () => {
         style={{width: '100%', height: '60%', marginTop: 30, marginBottom: 30}}
         resizeMode="contain"
       />
-      <Text h4 h4Style={styles.text}>
+      <Text style={styles.text}>
         Email: {user.email}
       </Text>
-      <Text h4 h4Style={styles.text}>
+      <Text style={styles.text}>
         Fullname: {user.full_name}
       </Text>
       <Divider />
@@ -87,6 +87,7 @@ const styles = StyleSheet.create({
     marginLeft: 50,
     color: 'green',
     marginBottom: 10,
+    fontSize: 20
   },
 });
 
