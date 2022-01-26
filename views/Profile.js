@@ -36,7 +36,7 @@ const Profile = () => {
       <Text>{user.username}</Text>
       <Image
         source={{uri: avatar}}
-        style={{width: '90%', height: '80%'}}
+        style={{width: '80%', height: '50%'}}
         resizeMode="contain"
       />
       <Text>{user.email}</Text>
