@@ -4,6 +4,7 @@ import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useTag} from '../hooks/ApiHooks';
 import {uploadsUrl} from '../utils/variables';
+import {Avatar} from 'react-native-elements';
 
 const Profile = () => {
   const {setIsLoggedIn, user} = useContext(MainContext);
@@ -23,7 +24,7 @@ const Profile = () => {
 
   useEffect(() => {
     fetchAvatar();
-  }, [])
+  }, []);
 
   const logout = async () => {
     await AsyncStorage.clear();
@@ -34,10 +35,14 @@ const Profile = () => {
     <SafeAreaView style={styles.container}>
       <Text>Profile</Text>
       <Text>{user.username}</Text>
-      <Image
+      <Avatar
+        activeOpacity={0.2}
+        containerStyle={{backgroundColor: '#BDBDBD'}}
+        onPress={() => alert('onPress')}
+        rounded
+        size="xlarge"
         source={{uri: avatar}}
-        style={{width: '80%', height: '50%'}}
-        resizeMode="contain"
+        title="P"
       />
       <Text>{user.email}</Text>
       <Text>{user.full_name}</Text>
