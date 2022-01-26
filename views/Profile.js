@@ -10,10 +10,15 @@ const Profile = () => {
   const [avatar, setAvatar] = useState('http://placekitten.com/640');
   const {getFileByTag} = useTag();
 
+  // fetch the avatar by tag
   const fetchAvatar = async () => {
-    const avatarArray = await getFileByTag('avatar_' + user.user_id);
-    const avatar = avatarArray[0].filename;
-    setAvatar(uploadsUrl + avatar);
+    try {
+      const avatarArray = await getFileByTag('avatar_' + user.user_id);
+      const avatar = avatarArray[0].filename;
+      setAvatar(uploadsUrl + avatar);
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   useEffect(() => {
