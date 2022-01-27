@@ -92,7 +92,13 @@ const useUser = () => {
     return await doFetch(baseUrl + 'users', options);
   };
 
-  return {getUserByToken, postUser};
+  // check user name if it is already used
+  const checkUsername = async (username) => {
+    const result = await doFetch(baseUrl + 'users/username/' + username);
+    return result.available;
+  };
+
+  return {getUserByToken, postUser, checkUsername};
 };
 
 const useTag = () => {
@@ -101,17 +107,17 @@ const useTag = () => {
       method: 'POST',
       headers: {
         'Content/Type': 'application/json',
-         'x-access-token': token,
-        },
+        'x-access-token': token,
+      },
       body: JSON.stringify(tagData),
-    }
-    return await doFetch(baseUrl + 'tags/', options)
-  }
+    };
+    return await doFetch(baseUrl + 'tags/', options);
+  };
 
   const getFileByTag = async (tag) => {
     return await doFetch(baseUrl + 'tags/' + tag);
-  }
+  };
   return {postTag, getFileByTag};
-}
+};
 
 export {useMedia, useLogin, useUser, useTag};
