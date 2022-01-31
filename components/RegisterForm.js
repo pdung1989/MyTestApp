@@ -1,16 +1,18 @@
 import React from 'react';
-import {View} from 'react-native';
+import {Alert, View} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {useUser} from '../hooks/ApiHooks';
 import {Input, Button, Text} from 'react-native-elements';
+import {PropTypes} from 'prop-types';
 
-const RegisterForm = () => {
+const RegisterForm = ({setFormToggle}) => {
   const {postUser, checkUsername} = useUser();
 
   const {
     control,
     handleSubmit,
     formState: {errors},
+    getValues,
   } = useForm({
     defaultValues: {
       username: '',
@@ -24,8 +26,13 @@ const RegisterForm = () => {
   const onSubmit = async (data) => {
     console.log(data);
     try {
+      delete data.confirmPassword;
       const userData = await postUser(data);
       console.log('register onSubmit', userData);
+      if (userData) {
+        Alert.alert('Success', 'User created successfully.');
+        setFormToggle(true);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -75,6 +82,12 @@ const RegisterForm = () => {
             value: 5,
             message: 'Password has to be at least 5 characters.',
           },
+          /*
+          pattern: {
+            value: /(?=.*[\p{Lu}])(?=.*[0-9]).{8,}/u,
+            message: 'Min 8, Uppercase, Number',
+          },
+          */
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
@@ -94,6 +107,40 @@ const RegisterForm = () => {
         control={control}
         rules={{
           required: true,
+          required: {value: true, message: 'This is required.'},
+          validate: (value) => {
+            const {password} = getValues();
+            if (value === password) {
+              return true;
+            } else {
+              return 'Passwords do not match.';
+            }
+          },
+        }}
+        render={({field: {onChange, onBlur, value}}) => (
+          <Input
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+            autoCapitalize="none"
+            secureTextEntry={true}
+            placeholder="Confirm Password"
+            errorMessage={
+              errors.confirmPassword && errors.confirmPassword.message
+            }
+          />
+        )}
+        name="confirmPassword"
+      />
+
+      <Controller
+        control={control}
+        rules={{
+          required: {value: true, message: 'This is required.'},
+          pattern: {
+            value: /\S+@\S+\.\S+$/,
+            message: 'Has to be valid email.',
+          },
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
@@ -132,6 +179,10 @@ const RegisterForm = () => {
       <Button title="Submit" onPress={handleSubmit(onSubmit)} />
     </View>
   );
+};
+
+RegisterForm.propTypes = {
+  setFormToggle: PropTypes.func,
 };
 
 export default RegisterForm;
