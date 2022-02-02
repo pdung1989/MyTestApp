@@ -1,12 +1,13 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {StyleSheet, SafeAreaView, Image, View} from 'react-native';
+import {StyleSheet, SafeAreaView, Image, View, ScrollView} from 'react-native';
 import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useTag} from '../hooks/ApiHooks';
 import {uploadsUrl} from '../utils/variables';
-import {Text, Divider, Icon, Button} from 'react-native-elements';
+import {Text, Divider, Icon, Button, Card} from 'react-native-elements';
+import {PropTypes} from 'prop-types';
 
-const Profile = () => {
+const Profile = ({navigation}) => {
   const {setIsLoggedIn, user} = useContext(MainContext);
   const [avatar, setAvatar] = useState('http://placekitten.com/640');
   const {getFileByTag} = useTag();
@@ -32,46 +33,55 @@ const Profile = () => {
   };
 
   return (
-    <SafeAreaView>
-      <View
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'flex-start',
-          padding: 20,
-        }}
-      >
-        <Icon name="person" size="40" style={{paddingRight: 20}} />
-        <Text h3 h3Style={{color: 'green'}}>
-          {user.username}
-        </Text>
-      </View>
-      <Divider />
-      <Image
-        source={{uri: avatar}}
-        style={{width: '100%', height: '60%', marginTop: 30, marginBottom: 30}}
-        resizeMode="contain"
-      />
-      <Text style={styles.text}>
-        Email: {user.email}
-      </Text>
-      <Text style={styles.text}>
-        Fullname: {user.full_name}
-      </Text>
-      <Divider />
-      <Button
-        title={'Logout'}
-        onPress={logout}
-        buttonStyle={{
-          backgroundColor: 'rgba(127, 220, 103, 1)',
-          borderRadius: 3,
-        }}
-        titleStyle={{fontWeight: 'bold', fontSize: 28}}
-        containerStyle={{
-          marginHorizontal: 30,
-        }}
-      />
-    </SafeAreaView>
+    <ScrollView>
+      <Card>
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+            padding: 20,
+          }}
+        >
+          <Icon name="person" size="40" style={{paddingRight: 20}} />
+          <Text h3 h3Style={{color: 'green'}}>
+            {user.username}
+          </Text>
+        </View>
+        <Divider />
+        <Image
+          source={{uri: avatar}}
+          style={{
+            width: '100%',
+            height: '60%',
+            marginTop: 30,
+            marginBottom: 30,
+          }}
+          resizeMode="contain"
+        />
+        <Text style={styles.text}>Email: {user.email}</Text>
+        <Text style={styles.text}>Fullname: {user.full_name}</Text>
+        <Divider />
+        <Button
+          title={'Logout'}
+          onPress={logout}
+          buttonStyle={{
+            backgroundColor: 'rgba(127, 220, 103, 1)',
+            borderRadius: 3,
+          }}
+          titleStyle={{fontWeight: 'bold', fontSize: 28}}
+          containerStyle={{
+            marginHorizontal: 30,
+          }}
+        />
+        <Button
+          title="Modify user"
+          onPress={() => {
+            navigation.navigate('Modify user');
+          }}
+        />
+      </Card>
+    </ScrollView>
   );
 };
 
@@ -87,8 +97,12 @@ const styles = StyleSheet.create({
     marginLeft: 50,
     color: 'green',
     marginBottom: 10,
-    fontSize: 20
+    fontSize: 20,
   },
 });
+
+Profile.propTypes = {
+  navigation: PropTypes.object,
+};
 
 export default Profile;
