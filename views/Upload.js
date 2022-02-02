@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {ScrollView} from 'react-native';
+import {ScrollView, StyleSheet} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import PropTypes from 'prop-types';
 import {Button, Input, Text, Card} from 'react-native-elements';
@@ -39,7 +39,11 @@ const Upload = ({navigation}) => {
   return (
     <ScrollView>
       <Card>
-        <Card.Image source={{uri: image}}></Card.Image>
+        <Card.Image
+          source={{uri: image}}
+          style={styles.image}
+          onPress={pickImage}
+        ></Card.Image>
         <Controller
           control={control}
           rules={{
@@ -86,5 +90,14 @@ const Upload = ({navigation}) => {
 Upload.propTypes = {
   navigation: PropTypes.object,
 };
+
+const styles = StyleSheet.create({
+  image: {
+    width: '100%',
+    height: undefined,
+    aspectRatio: 1,
+    marginBottom: 30,
+  },
+});
 
 export default Upload;
