@@ -92,13 +92,26 @@ const useUser = () => {
     return await doFetch(baseUrl + 'users', options);
   };
 
+  // modify user
+  const putUser = async (data, token) => {
+    const options = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': token,
+      },
+      body: JSON.stringify(data),
+    };
+    return await doFetch(baseUrl + 'users', options);
+  };
+
   // check user name if it is already used
   const checkUsername = async (username) => {
     const result = await doFetch(baseUrl + 'users/username/' + username);
     return result.available;
   };
 
-  return {getUserByToken, postUser, checkUsername};
+  return {getUserByToken, postUser, checkUsername, putUser};
 };
 
 const useTag = () => {
