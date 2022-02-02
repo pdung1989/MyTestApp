@@ -2,7 +2,7 @@ import React from 'react';
 import {Alert, View} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {useUser} from '../hooks/ApiHooks';
-import {Input, Button, Text} from 'react-native-elements';
+import {Input, Button} from 'react-native-elements';
 import {PropTypes} from 'prop-types';
 
 const RegisterForm = ({setFormToggle}) => {
