@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {Alert, ScrollView, StyleSheet} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import PropTypes from 'prop-types';
@@ -6,14 +6,16 @@ import {Button, Input, Text, Card} from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as ImagePicker from 'expo-image-picker';
 import {useMedia} from '../hooks/ApiHooks';
+import {MainContext} from '../contexts/MainContext';
 
 const Upload = ({navigation}) => {
   const [image, setImage] = useState(
-    'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.iconsdb.com%2Fcaribbean-blue-icons%2Fupload-2-icon.html&psig=AOvVaw3E7CSaR2mf3WIytf6P2dkE&ust=1643889762624000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCJiIgN784PUCFQAAAAAdAAAAABBV'
+    'https://place-hold.it/300x200&text=Choose'
   );
   const [type, setType] = useState('');
   const [imageSelected, setImageSelected] = useState(false);
-  const {postMedia} = useMedia;
+  const {postMedia} = useMedia();
+  const {update, setUpdate} = useContext(MainContext);
 
   const {
     control,
@@ -35,16 +37,15 @@ const Upload = ({navigation}) => {
       aspect: [4, 3],
       quality: 1,
     });
-
     console.log(result);
-
     if (!result.cancelled) {
       setImage(result.uri);
       setImageSelected(true);
+      setType(result.type);
     }
   };
 
-  const onSubmit = async (date) => {
+  const onSubmit = async (data) => {
     if (!imageSelected) {
       Alert.alert('Please select a file');
       return;
@@ -55,7 +56,7 @@ const Upload = ({navigation}) => {
     formData.append('description', data.description);
     const filename = image.split('/').pop();
     let fileExtention = filename.split('.').pop();
-    fileExtention = fileExtention === 'jpg' ? 'jpeg' : 'jpeg';
+    fileExtention = fileExtention === 'jpg' ? 'jpeg' : fileExtention;
     formData.append('file', {
       uri: image,
       name: filename,
@@ -65,9 +66,19 @@ const Upload = ({navigation}) => {
     try {
       const token = await AsyncStorage.getItem('userToken');
       const response = await postMedia(formData, token);
-      console.log('upload response', response)
+      console.log('upload response', response);
+      Alert.alert('File', 'uploaded', [
+        {
+          text: 'Ok',
+          onPress: () => {
+            // TODO: clear the form values here after submission
+            setUpdate(update + 1);
+            navigation.navigate('Home');
+          },
+        },
+      ]);
     } catch (error) {
-      console.log('Upload media problem')
+      console.log('Upload media problem');
     }
   };
 
@@ -131,7 +142,8 @@ const styles = StyleSheet.create({
     width: '100%',
     height: undefined,
     aspectRatio: 1,
-    marginBottom: 30,
+    marginBottom: 20,
+    resizeMode: 'contain',
   },
 });
 
