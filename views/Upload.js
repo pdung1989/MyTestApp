@@ -45,6 +45,11 @@ const Upload = ({navigation}) => {
     }
   };
 
+  // reset
+  const reset = () => {
+    setImage('https://place-hold.it/300x200&text=Choose');
+  }
+
   const onSubmit = async (data) => {
     if (!imageSelected) {
       Alert.alert('Please select a file');
@@ -127,7 +132,8 @@ const Upload = ({navigation}) => {
         {errors.description && <Text>This is required.</Text>}
 
         <Button title="Choose image" onPress={pickImage} />
-        <Button loading={loading} title="Upload image" onPress={handleSubmit(onSubmit)} />
+        <Button disabled= {!imageSelected} loading={loading} title="Upload image" onPress={handleSubmit(onSubmit)} />
+        <Button title="Reset" onPress={reset} />
       </Card>
     </ScrollView>
   );

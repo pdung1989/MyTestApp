@@ -45,9 +45,11 @@ const useMedia = () => {
       );
       setMediaArray(media);
       //console.log(mediaArray);
-      setLoading(false);
+      //media && setLoading(false);
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
   // Call loadMedia() only once when the component is loaded
@@ -67,8 +69,9 @@ const useMedia = () => {
       },
       body: formData,
     };
-    setLoading(false);
-    return await doFetch(baseUrl + 'media', options);
+    const result = await doFetch(baseUrl + 'media', options);
+    result && setLoading(false);
+    return result;
   };
 
   return {mediaArray, postMedia, loading};
