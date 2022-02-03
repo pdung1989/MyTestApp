@@ -23,9 +23,11 @@ const doFetch = async (url, options = {}) => {
 // useMedia hook to handle state of media
 const useMedia = () => {
   const [mediaArray, setMediaArray] = useState([]);
-  // let mediaArray = [];
+  const [loading, setLoading] = useState(false);
   const {update} = useContext(MainContext);
+
   const loadMedia = async (start = 0, limit = 10) => {
+    setLoading(true);
     try {
       const response = await fetch(
         `${baseUrl}media?start=${start}&limit=${limit}`
@@ -38,12 +40,12 @@ const useMedia = () => {
         json.map(async (item) => {
           const response = await fetch(baseUrl + 'media/' + item.file_id);
           const mediaData = await response.json();
-          // console.log(mediaData);
           return mediaData;
         })
       );
       setMediaArray(media);
-      console.log(mediaArray);
+      //console.log(mediaArray);
+      setLoading(false);
     } catch (error) {
       console.error(error);
     }
@@ -56,6 +58,7 @@ const useMedia = () => {
 
   // upload media
   const postMedia = async (formData, token) => {
+    setLoading(true);
     const options = {
       method: 'POST',
       headers: {
@@ -64,10 +67,11 @@ const useMedia = () => {
       },
       body: formData,
     };
+    setLoading(false);
     return await doFetch(baseUrl + 'media', options);
   };
 
-  return {mediaArray, postMedia};
+  return {mediaArray, postMedia, loading};
 };
 
 // create useLogin hook for handling login

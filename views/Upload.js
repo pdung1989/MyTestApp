@@ -14,7 +14,7 @@ const Upload = ({navigation}) => {
   );
   const [type, setType] = useState('');
   const [imageSelected, setImageSelected] = useState(false);
-  const {postMedia} = useMedia();
+  const {postMedia, loading} = useMedia();
   const {update, setUpdate} = useContext(MainContext);
 
   const {
@@ -127,7 +127,7 @@ const Upload = ({navigation}) => {
         {errors.description && <Text>This is required.</Text>}
 
         <Button title="Choose image" onPress={pickImage} />
-        <Button title="Upload image" onPress={handleSubmit(onSubmit)} />
+        <Button loading={loading} title="Upload image" onPress={handleSubmit(onSubmit)} />
       </Card>
     </ScrollView>
   );
