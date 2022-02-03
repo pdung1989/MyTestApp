@@ -21,6 +21,7 @@ const Upload = ({navigation}) => {
     control,
     handleSubmit,
     formState: {errors},
+    setValue,
   } = useForm({
     defaultValues: {
       title: '',
@@ -48,7 +49,10 @@ const Upload = ({navigation}) => {
   // reset
   const reset = () => {
     setImage('https://place-hold.it/300x200&text=Choose');
-  }
+    setImageSelected(false);
+    setValue('title', '');
+    setValue('description', '');
+  };
 
   const onSubmit = async (data) => {
     if (!imageSelected) {
@@ -132,7 +136,12 @@ const Upload = ({navigation}) => {
         {errors.description && <Text>This is required.</Text>}
 
         <Button title="Choose image" onPress={pickImage} />
-        <Button disabled= {!imageSelected} loading={loading} title="Upload image" onPress={handleSubmit(onSubmit)} />
+        <Button
+          disabled={!imageSelected}
+          loading={loading}
+          title="Upload image"
+          onPress={handleSubmit(onSubmit)}
+        />
         <Button title="Reset" onPress={reset} />
       </Card>
     </ScrollView>
