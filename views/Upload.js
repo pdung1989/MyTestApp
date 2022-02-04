@@ -36,11 +36,10 @@ const Upload = ({navigation}) => {
   //choose image from the phone
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
+    const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
+      quality: 0.5,
     });
     console.log(result);
     if (!result.cancelled) {
@@ -75,12 +74,12 @@ const Upload = ({navigation}) => {
     formData.append('title', data.title);
     formData.append('description', data.description);
     const filename = image.split('/').pop();
-    let fileExtention = filename.split('.').pop();
-    fileExtention = fileExtention === 'jpg' ? 'jpeg' : fileExtention;
+    let fileExtension = filename.split('.').pop();
+    fileExtension = fileExtension === 'jpg' ? 'jpeg' : fileExtension;
     formData.append('file', {
       uri: image,
       name: filename,
-      type: type + '/' + fileExtention,
+      type: type + '/' + fileExtension,
     });
     // console.log(formData);
     try {
@@ -92,7 +91,7 @@ const Upload = ({navigation}) => {
         {file_id: response.file_id, tag: appId},
         token
       );
-      console.log('tagResponse', tagResponse);
+      console.log('tag response', tagResponse);
       tagResponse &&
         Alert.alert('File', 'uploaded', [
           {
@@ -142,11 +141,11 @@ const Upload = ({navigation}) => {
               value={value}
               autoCapitalize="none"
               placeholder="Title"
+              errorMessage={errors.title && 'This is required.'}
             />
           )}
           name="title"
         />
-        {errors.title && <Text>This is required.</Text>}
 
         <Controller
           control={control}
@@ -160,11 +159,11 @@ const Upload = ({navigation}) => {
               value={value}
               autoCapitalize="none"
               placeholder="Description"
+              errorMessage= {errors.description && 'This is required.'}
             />
           )}
           name="description"
         />
-        {errors.description && <Text>This is required.</Text>}
 
         <Button title="Choose image" onPress={pickImage} />
         <Button
