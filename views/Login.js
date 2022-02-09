@@ -14,7 +14,6 @@ import {useUser} from '../hooks/ApiHooks';
 import LoginForm from '../components/LoginForm';
 import RegisterForm from '../components/RegisterForm';
 import {ButtonGroup, Card, Text} from 'react-native-elements';
-import Logo from '../assets/logo.svg';
 
 const Login = ({navigation}) => {
   const [formToggle, setFormToggle] = useState(true);
