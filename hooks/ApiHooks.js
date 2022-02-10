@@ -77,7 +77,7 @@ const useMedia = (myFilesOnly) => {
     return result;
   };
 
-  // modify media
+  // modify file
   const putMedia = async (data, token, fileId) => {
     const options = {
       method: 'PUT',
@@ -90,10 +90,20 @@ const useMedia = (myFilesOnly) => {
     return await doFetch(baseUrl + `media/${fileId}`, options);
   };
 
-  return {mediaArray, postMedia, loading, putMedia};
+  // delete file
+  const deleteMedia = async (token, fileId) => {
+    const options = {
+      method: 'DELETE',
+      headers: {
+        'x-access-token': token,
+      },
+    };
+    return await doFetch(baseUrl + `media/${fileId}`, options);
+  };
+
+  return {mediaArray, postMedia, loading, putMedia, deleteMedia};
 };
 
-// create useLogin hook for handling login
 const useLogin = () => {
   const postLogin = async (userCredentials) => {
     // user credentials format: {username: 'someUsername', password: 'somePassword'}
