@@ -12,7 +12,6 @@ const doFetch = async (url, options = {}) => {
     } else {
       const message = json.error
         ? `${json.message}: ${json.error}`
-
         : json.message;
       throw new Error(message || response.statusText);
     }
@@ -22,10 +21,10 @@ const doFetch = async (url, options = {}) => {
 };
 
 // useMedia hook to handle state of media
-const useMedia = () => {
+const useMedia = (myFilesOnly) => {
   const [mediaArray, setMediaArray] = useState([]);
   const [loading, setLoading] = useState(false);
-  const {update} = useContext(MainContext);
+  const {update, user} = useContext(MainContext);
 
   const loadMedia = async (start = 0, limit = 10) => {
     setLoading(true);
@@ -35,7 +34,11 @@ const useMedia = () => {
       //   throw Error(response.statusText);
       // }
       // const json = await response.json();
-      const json = await useTag().getFileByTag(appId);
+      let json = await useTag().getFileByTag(appId);
+      if (myFilesOnly) {
+        //filter files belong to current user
+        json = json.filter((file) => file.user_id === user.user_id);
+      }
       const media = await Promise.all(
         json.map(async (item) => {
           const response = await fetch(baseUrl + 'media/' + item.file_id);
@@ -74,7 +77,20 @@ const useMedia = () => {
     return result;
   };
 
-  return {mediaArray, postMedia, loading};
+  // modify media
+  const putMedia = async (data, token, fileId) => {
+    const options = {
+      method: 'PUT',
+      headers: {
+        'x-access-token': token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    };
+    return await doFetch(baseUrl + `media/${fileId}`, options);
+  };
+
+  return {mediaArray, postMedia, loading, putMedia};
 };
 
 // create useLogin hook for handling login
@@ -192,6 +208,5 @@ const useFavourite = () => {
   };
   return {postFavourite, getFavouritesByFileId, deleteFavourite};
 };
-
 
 export {useMedia, useLogin, useUser, useTag, useFavourite};
