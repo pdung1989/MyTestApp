@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {ActivityIndicator, StyleSheet, ScrollView} from 'react-native';
 import PropTypes from 'prop-types';
 import {uploadsUrl} from '../utils/variables';
@@ -6,6 +6,7 @@ import {Avatar, Card, Button, ListItem, Text} from 'react-native-elements';
 import {Video} from 'expo-av';
 import {useUser, useFavourite, useTag} from '../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {MainContext} from '../contexts/MainContext';
 
 const Single = ({route}) => {
   // console.log('route:', route);
@@ -15,6 +16,7 @@ const Single = ({route}) => {
   const {getFileByTag} = useTag();
   const {postFavourite, getFavouritesByFileId, deleteFavourite} =
     useFavourite();
+  const {user} = useContext(MainContext);
 
   const [owner, setOwner] = useState({username: 'fetching...'});
   const [avatar, setAvatar] = useState('http://placekitten.com/180');
@@ -53,6 +55,9 @@ const Single = ({route}) => {
       setLikes(likesData);
       // TODO: check if user id of of logged in user is included in data and
       // set state userLike accordingly
+      likesData.forEach((like) => {
+        like.user_id === user.user_id && setUserLike(true);
+      });
     } catch (error) {
       // TODO: how should user be notified?
       console.error('fetchLikes() error', error);
@@ -62,7 +67,8 @@ const Single = ({route}) => {
   const createFavourite = async () => {
     try {
       const token = await AsyncStorage.getItem('userToken');
-      await postFavourite(file.file_id, token);
+      const response = await postFavourite(file.file_id, token);
+      response && setUserLike(true);
     } catch (error) {
       // TODO: what to do if user has liked this image already?
       console.error('createFavourite error', error);
@@ -72,7 +78,8 @@ const Single = ({route}) => {
   const removeFavourite = async () => {
     try {
       const token = await AsyncStorage.getItem('userToken');
-      await deleteFavourite(file.file_id, token);
+      const response = await deleteFavourite(file.file_id, token);
+      response && setUserLike(false);
     } catch (error) {
       // TODO: what to do if user has not liked this image already?
       console.error('removeFavourite error', error);
@@ -82,8 +89,12 @@ const Single = ({route}) => {
   useEffect(() => {
     fetchOwner();
     fetchAvatar();
-    fetchLikes();
   }, []);
+
+  // reload everytime userLike changes
+  useEffect(() => {
+    fetchLikes();
+  }, [userLike]);
 
   return (
     <ScrollView>
