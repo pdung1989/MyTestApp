@@ -6,7 +6,7 @@ import {PropTypes} from 'prop-types';
 const MyFiles = ({navigation}) => {
   return (
     <View>
-      <List navigation={navigation} myFilesOnly="true"/>
+      <List navigation={navigation} myFilesOnly={true}/>
     </View>
   );
 };
